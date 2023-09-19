@@ -1,7 +1,7 @@
 class Note {
   constructor(text) {
     this.text = text;
-    //this.show = show; //to delete & remove from array
+    this.show = true; //to delete & remove from array
   }
 
   edit(newText) {

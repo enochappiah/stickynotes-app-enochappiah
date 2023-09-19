@@ -10,8 +10,15 @@ class NotesWall {
     this.notes.push(note);
   }
 
-  removeNote() {
-    this.notes = this.notes.filter((note) => !note.show); //will remove note from notes array when called
+  // addNote(text) {
+  //   this.notes.push({
+  //     text: text,
+  //     show: true
+  //   });
+  // }
+
+  removeNote(text) {
+    this.notes = this.notes.filter((note) => note.text !== text);
   }
 }
 
