@@ -1,7 +1,9 @@
 class Note {
+  static nextId = 1;
   constructor(text) {
     this.text = text;
     this.show = true; //to delete & remove from array
+    this.id = Note.nextId++;
   }
 
   edit(newText) {
@@ -9,10 +11,6 @@ class Note {
     this.text = newText;
   }
 
-  toggle() {
-    //to delete notes
-    this.show = !this.show;
-  }
 }
 
 export default Note;
