@@ -10,12 +10,15 @@ class NotesWall {
     this.notes.push(note);
   }
 
-  // addNote(text) {
-  //   this.notes.push({
-  //     text: text,
-  //     show: true
-  //   });
-  // }
+ findNote(text) {
+  const note = this.NotesWall.notes.find((n)=> n.text === text);
+  if (note) {
+    console.log("\n******** NOTE FOUND ********\n");
+  }
+  return note;
+ }
+
+
 
   removeNote(text) {
     this.notes = this.notes.filter((note) => note.text !== text);
