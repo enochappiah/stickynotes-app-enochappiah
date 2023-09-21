@@ -10,7 +10,6 @@ class Note {
     //to edit notes
     this.text = newText;
   }
-
 }
 
 export default Note;
