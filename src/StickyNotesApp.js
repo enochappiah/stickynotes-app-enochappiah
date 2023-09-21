@@ -80,7 +80,7 @@ class StickyNotesApp {
     }
   }
 
-  handleEditKey(event) {
+  handleEditKeyDown(event) {
     // if (event.key === "Enter" ) { //&& !event.shiftKey
 
 
@@ -124,7 +124,17 @@ class StickyNotesApp {
     if (event.key === "Enter" && !event.shiftKey ) {
       event.preventDefault();
       event.target.blur();
+
+      // const noteElement = event.target.parentElement; 
+      // const noteText = noteElement.querySelector(".note-text"); 
+      // const noteEdit = noteElement.querySelector(".note-edit");
+      // const deleteBtn = noteElement.querySelector(".delete-btn");
+
+      // noteEdit.classList.add("hidden");
+      // noteText.classList.remove("hidden");
+      // deleteBtn.classList.remove("hidden");
     }
+
   }
 
   handleNewEdit(event) {
@@ -145,6 +155,7 @@ class StickyNotesApp {
       if (note) {
         note.text = event.target.value;
       }
+
     this.displayNotes();
   }
 
@@ -187,22 +198,18 @@ class StickyNotesApp {
       .getElementById("notes-wall")
       .addEventListener("click", this.handleDeleteClick.bind(this));
 
+      document
+      .getElementById("notes-wall")
+      .addEventListener("blur", this.handleNewEdit.bind(this), true);  
+
     document
       .getElementById("notes-wall")
       .addEventListener("dblclick", this.handleDoubleClick.bind(this));
 
     document
       .getElementById("notes-wall")
-      .addEventListener("keydown", this.handleEditKey.bind(this));
+      .addEventListener("keydown", this.handleEditKeyDown.bind(this));
 
-    // document
-    //   .getElementById("new-note")
-    //   .addEventListener("keydown", )
-
-
-    document
-      .getElementById("notes-wall")
-      .addEventListener("blur", this.handleNewEdit.bind(this));
 
     this.displayNotes();
   }
