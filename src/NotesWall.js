@@ -19,6 +19,12 @@ class NotesWall {
     }
   }
 
+  editNote(noteId, newText) {
+    const note = this.notes.find((n) => n.id == noteId);
+    if (note) {
+      note.text = newText;
+    }
+  }
   removeNote(noteElement) {
     this.notes = this.notes.filter((note) => note.id != noteElement.id);
   }

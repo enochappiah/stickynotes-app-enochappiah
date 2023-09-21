@@ -32,6 +32,7 @@ class StickyNotesApp {
       noteText.className = "p-4 note-text"; //note-edit
       noteText.innerHTML = note.text.replace(/\n/g, "<br>");
 
+
       //Edit element
       const noteTextArea = document.createElement("textarea"); // edit in note
       noteTextArea.className =
@@ -137,7 +138,7 @@ class StickyNotesApp {
 
   }
 
-  handleNewEdit(event) {
+  handleBlur(event) {
     // if (event.shiftKey && event.key === "Enter") {
     //   console.log("ENTERED SHIFT STATEMENT");
     //   event.preventDefault();
@@ -194,13 +195,15 @@ class StickyNotesApp {
       .getElementById("new-note")
       .addEventListener("keydown", this.handleNewNote.bind(this));
 
+      document
+      .getElementById("notes-wall")
+      .addEventListener("blur", this.handleBlur.bind(this), true);  
+
     document
       .getElementById("notes-wall")
       .addEventListener("click", this.handleDeleteClick.bind(this));
 
-      document
-      .getElementById("notes-wall")
-      .addEventListener("blur", this.handleNewEdit.bind(this), true);  
+    
 
     document
       .getElementById("notes-wall")
