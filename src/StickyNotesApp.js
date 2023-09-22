@@ -10,7 +10,6 @@ class StickyNotesApp {
     notesWallElement.innerHTML = "";
 
     allNotes.forEach((note) => {
-
       //Note Element
       const noteElement = document.createElement("div"); //each individual note
       noteElement.className =
@@ -44,7 +43,6 @@ class StickyNotesApp {
   }
 
   handleDoubleClick(event) {
-
     //finds and stores noteElement that user has double clicked
     const noteElement = event.target.closest(".note");
 
@@ -91,7 +89,7 @@ class StickyNotesApp {
   }
 
   handleEditKeyDown(event) {
-    //if the user completes entering in text to the textarea that is not a new line, 
+    //if the user completes entering in text to the textarea that is not a new line,
     //blur/unfocus the textarea to signal saving the edit
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
@@ -107,8 +105,8 @@ class StickyNotesApp {
     document
       .getElementById("notes-wall")
       .addEventListener("blur", this.saveNoteEdit.bind(this), true); //triggers during capturing phase and stops at textarea
-      //without it, the textarea/edit elements do not revert their attributes until render is called
-      //and edits are not properly saved
+    //without it, the textarea/edit elements do not revert their attributes until render is called
+    //and edits are not properly saved
 
     document
       .getElementById("notes-wall")
