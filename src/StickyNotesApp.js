@@ -106,7 +106,9 @@ class StickyNotesApp {
 
     document
       .getElementById("notes-wall")
-      .addEventListener("blur", this.saveNoteEdit.bind(this), true);
+      .addEventListener("blur", this.saveNoteEdit.bind(this), true); //triggers during capturing phase and stops at textarea
+      //without it, the textarea/edit elements do not revert their attributes until render is called
+      //and edits are not properly saved
 
     document
       .getElementById("notes-wall")
