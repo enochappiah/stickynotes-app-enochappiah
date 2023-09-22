@@ -4,11 +4,6 @@ class Note {
     this.text = text;
     this.id = Note.nextId++;
   }
-
-  // edit(newText) {
-  //   //to edit notes
-  //   this.text = newText;
-  // }
 }
 
 export default Note;

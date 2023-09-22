@@ -42,39 +42,25 @@ class StickyNotesApp {
     });
   }
 
-  saveNoteEdit2(noteElement, event) {
-    const note = this.NotesWall.findNote(noteElement.id);
-    if (note) {
-      note.text = noteElement.text;
+  handleDoubleClick(event) {
+    //finds and stores noteElement that user has double clicked
+    const noteElement = event.target.closest(".note");
+
+    if (noteElement) {
+      //gets elements in notes
+      const noteText = noteElement.querySelector(".note-text");
+      const noteEdit = noteElement.querySelector(".note-edit");
+
+      //removes hidden attribute to textarea and adds hidden to text for proper formatting of view
+      noteEdit.classList.remove("hidden");
+      noteText.classList.add("hidden");
+
+      noteEdit.focus();
     }
-    this.handleSaveClick(event);
-    //this.replaceNoteAttributes(event);
-    this.renderNotes();
   }
-  // handleSaveClick(event) {
-  //   console.log(event.target);
-  //   const noteEdit = document.querySelector(".note-edit:not(.hidden)");
-  //   console.log(noteEdit);
-  //   const noteText = event.target.parentElement.querySelector(".note-text");
-  //   //console.log(noteText);
-
-  //   const clickedElement = event.target;
-
-  //   if (noteEdit && !noteEdit.contains(clickedElement)) {
-  //     console.log(noteText);
-  //     const noteElement = noteEdit.parentElement;
-  //     const noteText = noteElement.querySelector(".note-text");
-      
-  //     noteEdit.classList.add("hidden");
-  //     noteText.classList.remove("hidden");
-  //   }
-  // }
 
   saveNoteEdit(event) {
-    const note = this.NotesWall.findNote(event.target.parentElement.id);
-    if (note) {
-      note.text = event.target.value;
-    }
+    this.NotesWall.editNote(event.target.parentElement.id, event.target.value);
     this.renderNotes();
   }
 
@@ -104,42 +90,16 @@ class StickyNotesApp {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       event.target.blur();
-      event.target.addEventListener("blur", this.saveNoteEdit.bind(this), true);
-      //this.saveNoteEdit(event.target.parentElement, event);
     }
   }
-
-  
-  handleDoubleClick(event) {
-    
-    //finds and stores noteElement that user has double clicked
-    const noteElement = event.target.closest(".note");
-
-    //gets elements in notes
-    const noteText = noteElement.querySelector(".note-text");
-    const noteEdit = noteElement.querySelector(".note-edit");
-    
-    //removes hidden attribute to textarea and adds hidden to text for proper formatting of view
-    noteEdit.classList.remove("hidden");
-    noteEdit.focus();
-    noteText.classList.add("hidden");
-    
-  }
-
-
 
   init() {
     document
       .getElementById("new-note")
       .addEventListener("keydown", this.handleNewNote.bind(this));
-
-    // document
-    //   .getElementById("notes-wall")
-    //   .addEventListener("blur", this.handleBlur.bind(this), true);
-
-    // document
-    //   .getElementById("notes-wall")
-    //   .addEventListener("focus",this.saveNoteEdit(this));
+    document
+      .getElementById("notes-wall")
+      .addEventListener("blur", this.saveNoteEdit.bind(this), true);
 
     document
       .getElementById("notes-wall")
@@ -158,4 +118,3 @@ class StickyNotesApp {
 }
 
 export default StickyNotesApp;
-
