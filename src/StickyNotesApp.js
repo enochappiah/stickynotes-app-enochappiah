@@ -10,7 +10,7 @@ class StickyNotesApp {
     notesWallElement.innerHTML = "";
 
     allNotes.forEach((note) => {
-      
+
       //Note Element
       const noteElement = document.createElement("div"); //each individual note
       noteElement.className =
@@ -64,7 +64,6 @@ class StickyNotesApp {
 
   saveNoteEdit(event) {
     //edits the note and returns the textarea elements to their previous setting and calls renderNotes
-    //
     this.NotesWall.editNote(event.target.parentElement.id, event.target.value);
     this.renderNotes();
   }
