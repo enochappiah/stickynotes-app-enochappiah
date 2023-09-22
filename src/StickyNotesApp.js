@@ -10,6 +10,7 @@ class StickyNotesApp {
     notesWallElement.innerHTML = "";
 
     allNotes.forEach((note) => {
+      
       //Note Element
       const noteElement = document.createElement("div"); //each individual note
       noteElement.className =
@@ -27,7 +28,7 @@ class StickyNotesApp {
       //Text Element
       const noteText = document.createElement("div"); // text in note
       noteText.className = "p-4 note-text"; //note-edit
-      noteText.innerHTML = note.text.replace(/\n/g, "<br>");
+      noteText.innerHTML = note.text.replace(/\n/g, "<br>"); //replaces all newlines with break elements
 
       //Edit element
       const noteTextArea = document.createElement("textarea"); // edit in note
@@ -43,6 +44,7 @@ class StickyNotesApp {
   }
 
   handleDoubleClick(event) {
+
     //finds and stores noteElement that user has double clicked
     const noteElement = event.target.closest(".note");
 
@@ -55,11 +57,14 @@ class StickyNotesApp {
       noteEdit.classList.remove("hidden");
       noteText.classList.add("hidden");
 
+      //allows user to directly start editing the textarea
       noteEdit.focus();
     }
   }
 
   saveNoteEdit(event) {
+    //edits the note and returns the textarea elements to their previous setting and calls renderNotes
+    //
     this.NotesWall.editNote(event.target.parentElement.id, event.target.value);
     this.renderNotes();
   }
@@ -87,6 +92,8 @@ class StickyNotesApp {
   }
 
   handleEditKeyDown(event) {
+    //if the user completes entering in text to the textarea that is not a new line, 
+    //blur/unfocus the textarea to signal saving the edit
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       event.target.blur();
@@ -97,6 +104,7 @@ class StickyNotesApp {
     document
       .getElementById("new-note")
       .addEventListener("keydown", this.handleNewNote.bind(this));
+
     document
       .getElementById("notes-wall")
       .addEventListener("blur", this.saveNoteEdit.bind(this), true);
