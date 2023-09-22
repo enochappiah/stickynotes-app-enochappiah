@@ -4,10 +4,7 @@ class StickyNotesApp {
     this.NotesWall = new NotesWall();
   }
 
-  //textarea class for note text
-  //notes-wall id for all notes
-  // p-4 note-text class for all notes
-  displayNotes() {
+  renderNotes() {
     const allNotes = this.NotesWall.notes;
     const notesWallElement = document.getElementById("notes-wall");
     notesWallElement.innerHTML = "";
@@ -32,7 +29,6 @@ class StickyNotesApp {
       noteText.className = "p-4 note-text"; //note-edit
       noteText.innerHTML = note.text.replace(/\n/g, "<br>");
 
-
       //Edit element
       const noteTextArea = document.createElement("textarea"); // edit in note
       noteTextArea.className =
@@ -46,12 +42,52 @@ class StickyNotesApp {
     });
   }
 
+  saveNoteEdit2(noteElement, event) {
+    const note = this.NotesWall.findNote(noteElement.id);
+    if (note) {
+      note.text = noteElement.text;
+    }
+    this.handleSaveClick(event);
+    //this.replaceNoteAttributes(event);
+    this.renderNotes();
+  }
+  // handleSaveClick(event) {
+  //   console.log(event.target);
+  //   const noteEdit = document.querySelector(".note-edit:not(.hidden)");
+  //   console.log(noteEdit);
+  //   const noteText = event.target.parentElement.querySelector(".note-text");
+  //   //console.log(noteText);
+
+  //   const clickedElement = event.target;
+
+  //   if (noteEdit && !noteEdit.contains(clickedElement)) {
+  //     console.log(noteText);
+  //     const noteElement = noteEdit.parentElement;
+  //     const noteText = noteElement.querySelector(".note-text");
+      
+  //     noteEdit.classList.add("hidden");
+  //     noteText.classList.remove("hidden");
+  //   }
+  // }
+
+  saveNoteEdit(event) {
+    const note = this.NotesWall.findNote(event.target.parentElement.id);
+    if (note) {
+      note.text = event.target.value;
+    }
+    this.renderNotes();
+  }
+
   handleNewNote(event) {
-    if (event.key === "Enter" && event.target.value.trim() !== "" && !event.shiftKey) {
+    if (
+      event.key === "Enter" &&
+      event.target.value.trim() !== "" &&
+      !event.shiftKey
+    ) {
       event.preventDefault();
       this.NotesWall.addNote(event.target.value.trim());
       event.target.value = "";
-      this.displayNotes();
+      this.renderNotes();
     }
   }
 
@@ -60,150 +96,54 @@ class StickyNotesApp {
       //if the user clicks the trash icon of a certain note, remove that note delete-btn
       const noteElement = event.target.parentElement;
       this.NotesWall.removeNote(noteElement);
-      this.displayNotes();
-    }
-  }
-
-
-  handleSaveClick(event) {
-    const noteEdit = document.querySelector(".note-edit:not(.hidden)");
-    const clickedElement = event.target;
-
-
-    if (noteEdit && !noteEdit.contains(clickedElement)) {
-      const noteElement = noteEdit.parentElement;
-      const noteText = noteElement.querySelector(".note-text");
-      const note = this.NotesWall.findNote(noteElement.id);
-      note.text = noteEdit.value.trim();
-      noteEdit.classList.add("hidden");
-      noteText.classList.remove("hidden");
-      this.displayNotes();
+      this.renderNotes();
     }
   }
 
   handleEditKeyDown(event) {
-    // if (event.key === "Enter" ) { //&& !event.shiftKey
-
-
-    //   if (!event.shiftKey) {
-    //   //console.log(event.target);
-    //   const noteText = event.target.parentElement.querySelector(".note-text");
-    //   const noteEdit = event.target.parentElement.querySelector(".note-edit");
-    //   event.preventDefault();
-
-    //   //gets you the appropiate note from notes array that is being edited by user
-    //   const note = this.NotesWall.findNote(event.target.parentElement.id);
-    //   if (note) {
-    //   note.text = event.target.value.trim();
-    //   noteEdit.classList.add("hidden");
-    //   noteText.classList.remove("hidden");
-    //   }
-      
-    //   this.displayNotes();
-      
-    
-    //   } else if (event.shiftKey && event.key === "Enter") {
-    //     console.log("ENTERED SHIFT STATEMENT");
-    //     event.preventDefault();
-    //     console.log(event.target);
-    //     console.log(event.target.value);
-
-
-    //   event.target.value += "\n";
-    //   console.log(event.target.value);
-    //   const note = this.NotesWall.findNote(event.target.parentElement.id);
-    //   if (note) {
-    //     note.text = event.target.value.trim();
-    //     // noteEdit.classList.add("hidden");
-    //     // noteText.classList.remove("hidden");
-    //   }
-
-    //   }
-    // }
-
-    //event.key === "Enter" && !event.shiftKey && (event.preventDefault(), event.target.blur());
-    if (event.key === "Enter" && !event.shiftKey ) {
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       event.target.blur();
-
-      // const noteElement = event.target.parentElement; 
-      // const noteText = noteElement.querySelector(".note-text"); 
-      // const noteEdit = noteElement.querySelector(".note-edit");
-      // const deleteBtn = noteElement.querySelector(".delete-btn");
-
-      // noteEdit.classList.add("hidden");
-      // noteText.classList.remove("hidden");
-      // deleteBtn.classList.remove("hidden");
+      event.target.addEventListener("blur", this.saveNoteEdit.bind(this), true);
+      //this.saveNoteEdit(event.target.parentElement, event);
     }
-
   }
 
-  handleBlur(event) {
-    // if (event.shiftKey && event.key === "Enter") {
-    //   console.log("ENTERED SHIFT STATEMENT");
-    //   event.preventDefault();
-    //   console.log(event.target);
-    //   console.log(event.target.value);
-
-    //   event.target.value += "\n";
-    //   console.log(event.target.value);
-
-
-
-    // }
-
-    const note = this.NotesWall.findNote(event.target.parentElement.id);
-      if (note) {
-        note.text = event.target.value;
-      }
-
-    this.displayNotes();
-  }
-
+  
   handleDoubleClick(event) {
-    // if (event.target.classList.contains("note")) {
-    //   const noteText = event.target.parentElement.querySelector(".note-text"); //TODO remove
-    //   const noteEdit = event.target.querySelector(".note-edit");
-    //   noteEdit.classList.remove("hidden");
-    //   noteEdit.focus();
-
-    //   document.addEventListener("keydown", this.handleEditKey.bind(this));
-    //   document.addEventListener("click", this.handleSaveClick.bind(this));
-    //   //document.addEventListener("")
-
-    //   //document.removeEventListener("keydown", this.handleEditKey.bind(this));
     
-    // }
+    //finds and stores noteElement that user has double clicked
+    const noteElement = event.target.closest(".note");
 
-    const noteElement = event.target.closest(".note"); 
+    //gets elements in notes
+    const noteText = noteElement.querySelector(".note-text");
+    const noteEdit = noteElement.querySelector(".note-edit");
     
-    //if (note element) 
-
-      const noteText = noteElement.querySelector(".note-text"); 
-      const noteEdit = noteElement.querySelector(".note-edit");
-      const deleteBtn = noteElement.querySelector(".delete-btn");
-
-      noteEdit.classList.remove("hidden");
-      noteText.classList.add("hidden");
-      deleteBtn.classList.add("hidden");
-      noteEdit.focus();
-
+    //removes hidden attribute to textarea and adds hidden to text for proper formatting of view
+    noteEdit.classList.remove("hidden");
+    noteEdit.focus();
+    noteText.classList.add("hidden");
+    
   }
+
+
 
   init() {
     document
       .getElementById("new-note")
       .addEventListener("keydown", this.handleNewNote.bind(this));
 
-      document
-      .getElementById("notes-wall")
-      .addEventListener("blur", this.handleBlur.bind(this), true);  
+    // document
+    //   .getElementById("notes-wall")
+    //   .addEventListener("blur", this.handleBlur.bind(this), true);
+
+    // document
+    //   .getElementById("notes-wall")
+    //   .addEventListener("focus",this.saveNoteEdit(this));
 
     document
       .getElementById("notes-wall")
       .addEventListener("click", this.handleDeleteClick.bind(this));
-
-    
 
     document
       .getElementById("notes-wall")
@@ -213,11 +153,9 @@ class StickyNotesApp {
       .getElementById("notes-wall")
       .addEventListener("keydown", this.handleEditKeyDown.bind(this));
 
-
-    this.displayNotes();
+    this.renderNotes();
   }
 }
 
 export default StickyNotesApp;
 
-// DELETE ICON 🗑
